@@ -1,0 +1,44 @@
+name: SoapUI Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  
+jobs:
+  run-soapui-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      #Download and extract SoapUi
+      - name: Download SoapUI
+        run: |
+          wget https://s3.amazonaws.com/downloads.eviware/soapuios/5.6.0/SoapUI-5.6.0-linux-bin.tar.gz
+          tar -xzf SoapUI-5.6.0-linux-bin.tar.gz
+          export PATH=$PATH:$PWD/SoapUI-5.6.0/bin
+
+      #Run SoapUI tests
+      - name: Run tests
+        run: |
+          ./SoapUI-5.8.0/bin/testrunner.sh \
+            -s"TestSuite 1" \
+            -r -j -f reports \
+            ./REST-Project-1-soapui-project.xml
+      #Create reports and artefacts
+      - name: Upload test reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: soapui-test-report
+          path: reports/
