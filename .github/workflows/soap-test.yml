@@ -25,9 +25,9 @@ jobs:
       #Download and extract SoapUi
       - name: Download SoapUI
         run: |
-          wget https://s3.amazonaws.com/downloads.eviware/soapuios/5.6.0/SoapUI-5.6.0-linux-bin.tar.gz
-          tar -xzf SoapUI-5.6.0-linux-bin.tar.gz
-          export PATH=$PATH:$PWD/SoapUI-5.6.0/bin
+          wget https://dl.eviware.com/soapuios/5.8.0/SoapUI-5.8.0-linux-bin.tar.gz
+          tar -xzf SoapUI-5.8.0-linux-bin.tar.gz
+          chmod +x SoapUI-5.8.0/bin/testrunner.sh
 
       #Run SoapUI tests
       - name: Run tests
